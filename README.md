@@ -17,3 +17,5 @@ EMR, and it is possible to reuse an existing bucket and cluster
 for EMR configurations to save time and resources. Finally, a
 set of results are presented and discussed in terms of time
 efficiency and costs would be involved with running the system.
+
+![alt text](https://github.com/MCAyd/AWS-Cloud-System-for-Detecting-Trading-Signals-and-Risk-Calculation/blob/main/Project_Diagram.png)
