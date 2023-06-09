@@ -1,7 +1,5 @@
 # AWS-Cloud-System-for-Detecting-Trading-Signals-and-Risk-Calculation
-Go to README file // Keywords - Google App Engine, Flask, AWS Lambda, AWS Elastic MapReduce, boto3, yfinance, trading, stock market, Monte Carlo, risk calculation
-
-THis project is an application that supports
+This project is an application that supports
 determining the risks of using certain trading signals for a
 trading strategy using a so-called Monte Carlo method. It
 utilizes Google App Engine to host a Flask application that
