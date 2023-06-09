@@ -1,0 +1,30 @@
+{% extends "_base.htm" %}
+
+{% block title %}
+	AUDIT TABLE
+{% endblock %}
+
+{% block pageblock %}
+
+	<div id="up" style="text-align: right;">
+		<h3><a href="{{ url_for('post_service') }}">New Configuration</a><br/></h3>
+	</div>
+
+
+	<div id="up">
+		<h2>AUDITS : <br/><br/></h2>
+		<h3>{{table | safe}}</h3>
+		
+	</div>
+
+	<div id="up" style="text-align: left;">
+		<h3><a href="{{ url_for('post_reset') }}">Reset Audit Table</a><br/></h3>
+	</div>
+
+	{% if session['bucketname']!=[] %}
+	<div id="up" style="text-align: middle;">
+		<h3><a href="{{ url_for('post_terminate_services') }}">Terminate Scalable Services</a><br/></h3>
+	</div>
+	{% endif %}
+
+{% endblock %}

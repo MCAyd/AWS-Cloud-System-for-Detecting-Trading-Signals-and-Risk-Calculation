@@ -1,0 +1,16 @@
+numpy
+pandas
+yfinance
+flask
+flask_wtf
+flask_ckeditor
+wtforms
+wtforms.validators
+gunicorn
+boto3
+jinja2==3.0.3
+werkzeug==2.0.3
+itsdangerous==2.0.1
+pathlib==1.0.1
+fsspec
+s3fs

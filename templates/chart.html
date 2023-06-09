@@ -1,0 +1,26 @@
+{% extends "_base.htm" %}
+
+{% block title %}
+	RUN RESULTS
+{% endblock %}
+
+{% block pageblock %}
+
+	<div id="up" style="text-align: right;">
+		<h3><a href="{{ url_for('post_service') }}">New Configuration</a><br/></h3>
+	</div>
+
+	<div id="up">
+		<h2>Results for each signal %95 %99 CI respectively : <br/><br/></h2>
+		<h3>{{table | safe}}</h3>
+		<img src="https://quickchart.io/chart?c={type:'line',data:{labels:{{labels}}, datasets:[{label:'95s',data:{{ ninetyfives }}},{label:'99s',data:{{ ninetynines }}}]}}"
+		classed="displayed" alt="Graph: no internet connection." align="center" /><br/><br/>	
+	</div>
+
+	{% if session['audit_table'] != [] %}
+	<div id="up" style="text-align: left;">
+	  <h3><a href="{{ url_for('get_audit') }}">See Audit</a><br/></h3>
+	</div>
+	{% endif %}
+
+{% endblock %}

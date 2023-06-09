@@ -1,0 +1,161 @@
+<!-- template/config.html -->
+{% extends "_base.htm" %}
+
+{% from 'macros.html' import displayField %}
+
+{% block title %} 
+  CONFIGURATION PAGE 
+{% endblock %}
+
+{% block pageblock %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <style>
+      .flash-messages {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .flash-messages__list {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+      .flash-messages__item {
+        margin: 0 0 10px;
+        padding: 15px;
+        border-radius: 5px;
+        font-size: 16px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+      }
+      .flash-messages__item--fail {
+        background-color: #f44336;
+        border: 1px solid #f44336;
+      }
+      .flash-messages__item--success {
+        background-color: #4caf50;
+        border: 1px solid #4caf50;
+      }
+      .flash-messages__icon {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
+        border-radius: 50%;
+      }
+      .flash-messages__text {
+        color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="flash-messages">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <ul class="flash-messages__list">
+            {% for category, message in messages %}
+              <li class="flash-messages__item flash-messages__item--{{ category }}">
+                <span class="flash-messages__icon"></span>
+                <span class="flash-messages__text">{{ message }}</span>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      {% endwith %}
+    </div>
+  </body>
+</html>
+
+<div>
+    <form action="" method="POST">
+
+      {{ form.csrf_token }}
+        <h3>{{ displayField(form.stock.label) }}
+        {{ displayField(form.stock, 'Enter the stock code') }}</h3>
+
+        <h3>{{ displayField(form.select_service.label) }}
+        <select id="select_service" name="select_service">
+        <option value="lambda">Lambda</option>
+        <option value="emr">EMR</option>
+        </select></h3>
+
+        <h3>{{ displayField(form.resource_number.label) }}
+        {{ displayField(form.resource_number, 'Enter a number, maximum 8') }}</h3>
+
+        <h3>{{ displayField(form.history.label) }}
+        {{ displayField(form.history, 'Enter a number') }}</h3>
+
+        <h3>{{ displayField(form.shots.label) }}
+        {{ displayField(form.shots, 'Enter a number, maximum 50k') }}</h3>
+
+        <h3>{{ displayField(form.select_signal.label) }}
+        <select id="select_signal" name="select_signal">
+        <option value="buy">BUY</option>
+        <option value="sell">SELL</option>
+        </select></h3>
+
+        <h3>{{ displayField(form.days_past.label) }}
+        {{ displayField(form.days_past, 'Enter a number') }}</h3>
+
+        {{ form.submit(class='btn btn--solid') | safe }}
+
+    </form>
+</div>
+
+{% if session['audit_table'] != [] %}
+<div id="up" style="text-align: left;">
+  <h3><a href="{{ url_for('get_audit') }}">See Audit</a><br/></h3>
+</div>
+{% endif %}
+
+{% if session['currentstepid'] != [] %}
+<div id="up" style="text-align: left;">
+  <h3><a href="{{ url_for('get_chart') }}">Check Latest EMR Step Result</a><br/></h3>
+</div>
+{% endif %}
+
+{% if session['cred'] != '' %}
+<div id="up" style="text-align: left;">
+  <h3><a href="{{ url_for('auth') }}">Change Credentials</a><br/></h3>
+</div>
+{% endif %}
+
+{% if session['bucketname']!=[] %}
+<div id="up" style="text-align: middle;">
+  <h3><a href="{{ url_for('post_terminate_services') }}">Terminate Scalable Services</a><br/></h3>
+</div>
+{% endif %}
+
+<h4>YOUR AWS CREDENTIALS:</h4>
+{% if 'cred' in session%}
+{% for key, value in session['cred'].items() %}
+<div style="word-break: break-all;">{{ key }}: {{ value }}</div>
+{% endfor %}
+{% endif %}
+
+{% if session['bucketname'] != [] %}
+<h4>Bucket Name: {{session['bucketname'][0]}}</h4>
+{% endif %}
+
+{% if session['emrcluster'] != [] %}
+<h4>EMR Cluster: {{session['emrcluster'][0]}}</h4>
+<h4>Current Step ID: {{session['currentstepid'][0]}}</h4>
+{% if session['currentstepstatus'] in ['','FAILED','CANCELLED']%}
+{% if session['currentstepstatus'] == ''%}
+<h4 style="color: red">Step Status: Not Ready </h4>
+{% endif %}
+{% if session['currentstepstatus'] in ['FAILED','CANCELLED']%}
+<h4 style="color: red">Step Status: {{session['currentstepstatus']}} </h4>
+{% endif %}
+{% endif %}
+{% if session['currentstepstatus'] == 'COMPLETED'%}
+<h4 style="color: green">Step Status: {{session['currentstepstatus']}} </h4>
+{% endif %}
+{% endif %}
+
+{% endblock %}

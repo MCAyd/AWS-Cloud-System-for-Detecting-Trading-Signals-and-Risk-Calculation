@@ -1,0 +1,15 @@
+runtime: python311
+entrypoint: gunicorn -b :$PORT --timeout 180 routes:app
+
+handlers:
+- url: /static
+  static_dir: static
+- url: /.*
+  script: routes.app
+
+inbound_services:
+- warmup
+
+basic_scaling:
+  max_instances: 11
+  idle_timeout: 30m
